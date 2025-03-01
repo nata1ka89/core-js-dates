@@ -124,8 +124,11 @@ function getCountDaysInMonth(month, year) {
  * '2024-02-01T00:00:00.000Z', '2024-02-02T00:00:00.000Z'  => 2
  * '2024-02-01T00:00:00.000Z', '2024-02-12T00:00:00.000Z'  => 12
  */
-function getCountDaysOnPeriod(/* dateStart, dateEnd */) {
-  throw new Error('Not implemented');
+function getCountDaysOnPeriod(dateStart, dateEnd) {
+  const dayStart = new Date(dateStart).getTime();
+  const dayEnd = new Date(dateEnd).getTime();
+  const result = Math.floor((dayEnd - dayStart) / (1000 * 60 * 60 * 24) + 1);
+  return result;
 }
 
 /**
@@ -145,8 +148,16 @@ function getCountDaysOnPeriod(/* dateStart, dateEnd */) {
  * '2024-02-02', { start: '2024-02-02', end: '2024-03-02' } => true
  * '2024-02-10', { start: '2024-02-02', end: '2024-03-02' } => true
  */
-function isDateInPeriod(/* date, period */) {
-  throw new Error('Not implemented');
+function isDateInPeriod(date, period) {
+  const dataX = new Date(date).getTime();
+  const array = Object.values(period);
+  const start = new Date(array[0]).getTime();
+  const end = new Date(array[1]).getTime();
+
+  if (start <= dataX && dataX <= end) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -160,8 +171,9 @@ function isDateInPeriod(/* date, period */) {
  * '1999-01-05T02:20:00.000Z' => '1/5/1999, 2:20:00 AM'
  * '2010-12-15T22:59:00.000Z' => '12/15/2010, 10:59:00 PM'
  */
-function formatDate(/* date */) {
-  throw new Error('Not implemented');
+function formatDate(date) {
+  const data = new Date(date);
+  return data.toLocaleString('en-US', { timeZone: 'UTC' });
 }
 
 /**
@@ -176,8 +188,17 @@ function formatDate(/* date */) {
  * 12, 2023 => 10
  * 1, 2024 => 8
  */
-function getCountWeekendsInMonth(/* month, year */) {
-  throw new Error('Not implemented');
+function getCountWeekendsInMonth(month, year) {
+  const lastDay = new Date(year, month, 0).getDate();
+  let result = 0;
+  for (let i = 1; i <= lastDay; i += 1) {
+    const data = new Date(year, month - 1, i);
+    const day = data.getDay();
+    if (day === 0 || day === 6) {
+      result += 1;
+    }
+  }
+  return result;
 }
 
 /**
