@@ -249,17 +249,16 @@ function getNextFridayThe13th(date) {
     year += 1;
     month = 0;
   }
-  while (true) {
-    const newData = new Date(year, month, 13);
-    if (newData.getDay() === 5) {
-      return newData;
-    }
+  let newData = new Date(year, month, 13);
+  while (newData.getDay() !== 5) {
+    newData = new Date(year, month, 13);
     month += 1;
     if (month > 11) {
       year += 1;
       month = 0;
     }
   }
+  return newData;
 }
 
 /**
